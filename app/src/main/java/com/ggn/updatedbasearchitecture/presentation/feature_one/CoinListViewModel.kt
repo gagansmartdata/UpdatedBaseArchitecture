@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import androidx.lifecycle.viewModelScope
+import com.ggn.updatedbasearchitecture.domain.model.Coin
 
 @HiltViewModel
 class CoinListViewModel @Inject constructor(
@@ -39,5 +40,10 @@ class CoinListViewModel @Inject constructor(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+
+    interface RedirectionsFromCoinList{
+        fun gotoCoinDetails(coinID : Coin)
     }
 }

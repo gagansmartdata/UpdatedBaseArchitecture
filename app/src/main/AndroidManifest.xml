@@ -12,12 +12,21 @@
         android:theme="@style/Theme.UpdatedBaseArchitecture">
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".presentation.feature_one.CoinListActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".presentation.feature_two.CoinDetailsActivity"
+            android:exported="true">
         </activity>
     </application>
 
