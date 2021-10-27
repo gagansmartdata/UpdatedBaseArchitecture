@@ -23,7 +23,7 @@ class CoinListActivity : BaseActivity<ActivityCoinListBinding>(),
         get() = setUpBinding()
         set(value) {}
 
-    //using feature1 view model with main activity for demo purpose
+    //using lazy loading to load the view model instance
     private val viewModel:CoinListViewModel by viewModels()
 
     override fun bindData() {
