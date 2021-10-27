@@ -21,7 +21,6 @@ class CoinDetailsActivity : BaseActivity<ActivityCoinDetailsBinding>() {
         get() = setUpBinding()
         set(value) {}
 
-    //using feature1 view model with main activity for demo purpose
     private val viewModel:CoinDetailViewModel by viewModels()
 
     override fun bindData() {

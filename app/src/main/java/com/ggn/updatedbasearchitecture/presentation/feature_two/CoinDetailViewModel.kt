@@ -22,12 +22,15 @@ class CoinDetailViewModel @Inject constructor(
     private val _state = MutableStateFlow(CoinDetailState())
     val state: StateFlow<CoinDetailState> = _state
 
-    init {
+    init {//you can get intent's put extra from here.
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
             getCoin(coinId)
         }
     }
 
+    /**
+     * fetch coin details using the use case.
+     */
     private fun getCoin(coinId: String) {
         getCoinUseCase(coinId).onEach { result ->
             when (result) {

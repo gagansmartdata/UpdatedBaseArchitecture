@@ -24,6 +24,9 @@ class CoinListViewModel @Inject constructor(
         getCoins()
     }
 
+    /**
+     * fetch coins list using the use cases.
+     */
     private fun getCoins() {
         getCoinsUseCase().onEach { result ->
             when (result) {
@@ -42,7 +45,9 @@ class CoinListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-
+    /**
+     * interface for coin adapter click callback
+     */
     interface RedirectionsFromCoinList{
         fun gotoCoinDetails(coinID : Coin)
     }
