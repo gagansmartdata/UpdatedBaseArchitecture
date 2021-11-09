@@ -6,7 +6,7 @@ import com.ggn.updatedbasearchitecture.databinding.InflatorCoinListBinding
 import com.ggn.updatedbasearchitecture.domain.model.Coin
 
 /** Created by Gagan on 25/10/21.**/
-class CoinListAdapter(val list : List<Coin>,val coinClick: CoinListViewModel.RedirectionsFromCoinList) : InfiniteAdapter<InflatorCoinListBinding>() {
+class CoinListAdapter(val list : List<Coin>,val coinClick: RedirectionsFromCoinList) : InfiniteAdapter<InflatorCoinListBinding>() {
 
     init {
         setShouldLoadMore(false)
@@ -26,5 +26,12 @@ class CoinListAdapter(val list : List<Coin>,val coinClick: CoinListViewModel.Red
 
     override fun getInflateLayout(type: Int): Int {
         return R.layout.inflator_coin_list
+    }
+
+    /**
+     * interface for coin adapter click callback
+     */
+    interface RedirectionsFromCoinList{
+        fun gotoCoinDetails(coinID : Coin)
     }
 }

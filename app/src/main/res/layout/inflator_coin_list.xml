@@ -8,7 +8,7 @@
             type="com.ggn.updatedbasearchitecture.domain.model.Coin" />
         <variable
             name="onClick"
-            type="com.ggn.updatedbasearchitecture.presentation.feature_one.CoinListViewModel.RedirectionsFromCoinList" />
+            type="com.ggn.updatedbasearchitecture.presentation.feature_one.CoinListAdapter.RedirectionsFromCoinList" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

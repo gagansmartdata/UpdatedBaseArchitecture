@@ -1,6 +1,7 @@
 package com.ggn.updatedbasearchitecture.presentation.feature_one
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ggn.updatedbasearchitecture.common.Resource
 import com.ggn.updatedbasearchitecture.domain.use_case.get_coins.GetCoinsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,8 +10,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
-import androidx.lifecycle.viewModelScope
-import com.ggn.updatedbasearchitecture.domain.model.Coin
 
 @HiltViewModel
 class CoinListViewModel @Inject constructor(
@@ -45,10 +44,4 @@ class CoinListViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    /**
-     * interface for coin adapter click callback
-     */
-    interface RedirectionsFromCoinList{
-        fun gotoCoinDetails(coinID : Coin)
-    }
 }

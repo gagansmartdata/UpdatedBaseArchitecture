@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class CoinListActivity : BaseActivity<ActivityCoinListBinding>(),
-    CoinListViewModel.RedirectionsFromCoinList {
+    CoinListAdapter.RedirectionsFromCoinList {
 
     override val layoutId: Int
         get() = R.layout.activity_coin_list
