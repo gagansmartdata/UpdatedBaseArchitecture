@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(SingletonComponent::class)//Global stuff
 object AppModule {
 
     @Provides
@@ -29,19 +29,6 @@ object AppModule {
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
-
-    @Provides
-    @Singleton
-    fun providePaprikaApi(retrofit: Retrofit): CoinPaprikaApi {
-        return retrofit
-            .create(CoinPaprikaApi::class.java)
-    }
-
-    @Provides
-    @Singleton
-    fun provideCoinRepository(api: CoinPaprikaApi): CoinRepository {
-        return CoinRepositoryImpl(api)
     }
 
     @Provides
