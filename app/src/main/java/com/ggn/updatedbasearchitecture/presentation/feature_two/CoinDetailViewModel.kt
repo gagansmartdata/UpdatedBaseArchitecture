@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ggn.updatedbasearchitecture.common.Constants
 import com.ggn.updatedbasearchitecture.common.Resource
-import com.ggn.updatedbasearchitecture.domain.use_case.get_coin.GetCoinUseCase
+import com.ggn.updatedbasearchitecture.domain.use_case.get_coin.GetCoinById
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
-    private val getCoinUseCase: GetCoinUseCase,
+    private val getCoinUseCase: GetCoinById,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 

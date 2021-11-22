@@ -1,11 +1,14 @@
 package com.ggn.updatedbasearchitecture.domain.repository
 
-import com.ggn.updatedbasearchitecture.data.remote.dto.CoinDetailDto
+import com.ggn.updatedbasearchitecture.common.Resource
 import com.ggn.updatedbasearchitecture.data.remote.dto.CoinDto
+import com.ggn.updatedbasearchitecture.domain.model.Coin
+import com.ggn.updatedbasearchitecture.domain.model.CoinDetail
+import kotlinx.coroutines.flow.Flow
 
 interface CoinRepository {
 
-    suspend fun getCoins(): List<CoinDto>
+    fun getCoins(): Flow<Resource<List<Coin>>>
 
-    suspend fun getCoinById(coinId: String): CoinDetailDto
+    fun getCoinById(coinId: String): Flow<Resource<CoinDetail>>
 }
