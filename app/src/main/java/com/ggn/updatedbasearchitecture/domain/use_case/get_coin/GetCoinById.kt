@@ -13,7 +13,9 @@ class GetCoinById @Inject constructor(
     operator fun invoke(coinId: String): Flow<Resource<CoinDetail>>
     {
         if (coinId.isBlank()) {
-            return flow {  }
+            return flow {
+                emit(Resource.Error<CoinDetail>("Missing coin ID."))
+            }
         }
         return repository.getCoinById(coinId)
     }
