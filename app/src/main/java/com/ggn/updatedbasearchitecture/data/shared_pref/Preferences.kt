@@ -1,50 +1,30 @@
 package com.ggn.updatedbasearchitecture.data.shared_pref
 
-import android.content.SharedPreferences
-import com.ggn.updatedbasearchitecture.common.SharedPref
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.ggn.updatedbasearchitecture.domain.repository.PreferencesHelper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class Preferences @Inject constructor(private val sharedPreferences: SharedPreferences) : PreferencesHelper {
+class Preferences @Inject constructor(private val prefData: DataStore<Preferences>) : PreferencesHelper {
 
-    override fun getUserId(): String {
-        return load(SharedPref.USER_ID, "user id")
+    private object PreferencesKeys {
+        val USER_ID = stringPreferencesKey("user_name")
+        //val SHOW_COMPLETED = booleanPreferencesKey("show_completed")
     }
 
-    private inline fun <reified T : Any> save(key: String, value: T) {
-        sharedPreferences.edit().apply { putValue(key, value) }.apply()
+    override fun getUserId(): Flow<String> {
+        return prefData.data.map {prefrencee->
+            prefrencee[PreferencesKeys.USER_ID] ?: "id"
+        }
     }
-    private inline fun <reified T : Any> load(key: String, defaultValue: T): T {
-        return sharedPreferences.getValue(key, defaultValue)
-    }
-    private fun isSaved(key: String): Boolean {
-        return sharedPreferences.contains(key)
-    }
-    private fun remove(key: String) {
-        sharedPreferences.edit().remove(key).apply()
-    }
-}
 
-
-inline fun <reified T : Any> SharedPreferences.Editor.putValue(key: String, value: T) {
-    when (T::class) {
-        Boolean::class -> putBoolean(key, value as Boolean)
-        Int::class -> putInt(key, value as Int)
-        Long::class -> putLong(key, value as Long)
-        Float::class -> putFloat(key, value as Float)
-        String::class -> putString(key, value as String)
-        else -> throw UnsupportedOperationException("not supported preferences type")
-    }
-}
-
-
-inline fun <reified T : Any> SharedPreferences.getValue(key: String, defaultValue: T): T {
-    return when (T::class) {
-        Boolean::class -> getBoolean(key, defaultValue as Boolean) as T
-        Int::class -> getInt(key, defaultValue as Int) as T
-        Long::class -> getLong(key, defaultValue as Long) as T
-        Float::class -> getFloat(key, defaultValue as Float) as T
-        String::class -> getString(key, defaultValue as String) as T
-        else -> throw UnsupportedOperationException("not supported preferences type")
+    override suspend fun setUserId(id:String) {
+        prefData.edit { preferences ->
+            preferences[PreferencesKeys.USER_ID] = id
+        }
     }
 }

@@ -1,21 +1,22 @@
 package com.ggn.updatedbasearchitecture.presentation.feature_two
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ggn.updatedbasearchitecture.common.Constants
 import com.ggn.updatedbasearchitecture.common.Resource
+import com.ggn.updatedbasearchitecture.domain.repository.PreferencesHelper
 import com.ggn.updatedbasearchitecture.domain.use_case.get_coin.GetCoinById
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CoinDetailViewModel @Inject constructor(
     private val getCoinUseCase: GetCoinById,
+    private val prefData: PreferencesHelper,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -25,6 +26,12 @@ class CoinDetailViewModel @Inject constructor(
     init {//you can get intent's put extra from here.
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
             getCoin(coinId)
+        }
+
+        viewModelScope.launch {
+        prefData.getUserId().collect {
+            Log.e("Test: ",it )
+         }
         }
     }
 
