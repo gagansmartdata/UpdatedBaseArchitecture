@@ -1,13 +1,14 @@
 package com.ggn.updatedbasearchitecture.presentation.feature_one
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ggn.updatedbasearchitecture.base.GViewModel
+import com.ggn.updatedbasearchitecture.base.UIState
 import com.ggn.updatedbasearchitecture.common.Resource
+import com.ggn.updatedbasearchitecture.domain.model.Coin
 import com.ggn.updatedbasearchitecture.domain.repository.PreferencesHelper
 import com.ggn.updatedbasearchitecture.domain.use_case.get_coins.GetCoins
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -17,10 +18,11 @@ import javax.inject.Inject
 class CoinListViewModel @Inject constructor(
     private val getCoinsUseCase: GetCoins,
     private val protoPref: PreferencesHelper
-) : ViewModel() {
+) : GViewModel<UIState<List<Coin>>>() {
 
-    private val _state = MutableStateFlow(CoinListState())
-    val state: StateFlow<CoinListState> = _state
+    override val mutableState: MutableStateFlow<UIState<List<Coin>>> = MutableStateFlow(
+            UIState<List<Coin>>()
+    )
 
     init {
         viewModelScope.launch {
@@ -36,15 +38,26 @@ class CoinListViewModel @Inject constructor(
         getCoinsUseCase().onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = CoinListState(coins = result.data ?: emptyList())
+                    updateUIState {
+                        it.copy(
+                            data = result.data ?: emptyList(),
+                            isLoading = false
+                        )
+                    }
                 }
                 is Resource.Error -> {
-                    _state.value = CoinListState(
-                        error = result.message ?: "An unexpected error occured"
-                    )
+                    updateUIState {
+                        it.copy(
+                                error = result.message ?: "An unexpected error occurred"
+                                )
+                    }
                 }
                 is Resource.Loading -> {
-                    _state.value = CoinListState(isLoading = true)
+                    updateUIState {
+                        it.copy(
+                            isLoading = true
+                        )
+                    }
                 }
             }
         }.launchIn(viewModelScope)

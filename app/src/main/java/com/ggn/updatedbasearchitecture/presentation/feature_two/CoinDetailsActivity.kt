@@ -8,7 +8,6 @@ import com.ggn.updatedbasearchitecture.R
 import com.ggn.updatedbasearchitecture.base.BaseActivity
 import com.ggn.updatedbasearchitecture.common.Constants
 import com.ggn.updatedbasearchitecture.databinding.ActivityCoinDetailsBinding
-import com.ggn.updatedbasearchitecture.databinding.ActivityCoinListBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -25,8 +24,9 @@ class CoinDetailsActivity : BaseActivity<ActivityCoinDetailsBinding>() {
 
     override fun bindData() {
         lifecycleScope.launchWhenStarted {
-            viewModel.state.collect {
+            viewModel.state().collect {
                 binding.state = it
+                binding.data = it.data
             }
         }
     }

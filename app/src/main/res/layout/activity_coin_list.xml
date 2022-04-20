@@ -5,7 +5,7 @@
         <import type="android.view.View"/>
         <variable
             name="state"
-            type="com.ggn.updatedbasearchitecture.presentation.feature_one.CoinListState" />
+            type="com.ggn.updatedbasearchitecture.base.UIState" />
     </data>
 
 

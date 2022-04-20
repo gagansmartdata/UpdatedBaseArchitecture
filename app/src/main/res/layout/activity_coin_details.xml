@@ -5,7 +5,10 @@
         <import type="android.view.View"/>
         <variable
             name="state"
-            type="com.ggn.updatedbasearchitecture.presentation.feature_two.CoinDetailState" />
+            type="com.ggn.updatedbasearchitecture.base.UIState" />
+        <variable
+            name="data"
+            type="com.ggn.updatedbasearchitecture.domain.model.CoinDetail" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,13 +28,13 @@
             <TextView
                 android:textSize="18sp"
                 android:textColor="@color/black"
-                android:text="@{state.coin.name+`  -->`+state.coin.symbol}"
+                android:text="@{data.name+`  -->`+ data.symbol}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
                 android:isScrollContainer="true"
                 android:textSize="12sp"
-                android:text="@{state.coin.description}"
+                android:text="@{data.description}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>

@@ -2,10 +2,12 @@ package com.ggn.updatedbasearchitecture.presentation.feature_two
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ggn.updatedbasearchitecture.base.GViewModel
+import com.ggn.updatedbasearchitecture.base.UIState
 import com.ggn.updatedbasearchitecture.common.Constants
 import com.ggn.updatedbasearchitecture.common.Resource
+import com.ggn.updatedbasearchitecture.domain.model.CoinDetail
 import com.ggn.updatedbasearchitecture.domain.repository.PreferencesHelper
 import com.ggn.updatedbasearchitecture.domain.use_case.get_coin.GetCoinById
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,10 +20,11 @@ class CoinDetailViewModel @Inject constructor(
     private val getCoinUseCase: GetCoinById,
     private val prefData: PreferencesHelper,
     savedStateHandle: SavedStateHandle
-) : ViewModel() {
+) : GViewModel<UIState<CoinDetail>>() {
 
-    private val _state = MutableStateFlow(CoinDetailState())
-    val state: StateFlow<CoinDetailState> = _state
+    override val mutableState: MutableStateFlow<UIState<CoinDetail>> = MutableStateFlow(
+        UIState<CoinDetail>()//set initial state
+    )
 
     init {//you can get intent's put extra from here.
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
@@ -42,15 +45,21 @@ class CoinDetailViewModel @Inject constructor(
         getCoinUseCase(coinId).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _state.value = CoinDetailState(coin = result.data)
+                    updateUIState {
+                        it.copy(data = result.data,
+                        isLoading = false)
+                    }
                 }
                 is Resource.Error -> {
-                    _state.value = CoinDetailState(
-                        error = result.message ?: "An unexpected error occured"
-                    )
+                    updateUIState {
+                        it.copy(error = result.message ?: "An unexpected error occurred",
+                            isLoading = false)
+                    }
                 }
                 is Resource.Loading -> {
-                    _state.value = CoinDetailState(isLoading = true)
+                    updateUIState {
+                        it.copy(isLoading = true)
+                    }
                 }
             }
         }.launchIn(viewModelScope)

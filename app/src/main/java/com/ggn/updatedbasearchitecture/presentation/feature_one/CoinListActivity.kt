@@ -28,10 +28,12 @@ class CoinListActivity : BaseActivity<ActivityCoinListBinding>(),
 
     override fun bindData() {
         lifecycleScope.launchWhenStarted {
-            viewModel.state.collect {
+            viewModel.state().collect {
               binding.state = it
-                if (it.coins.isNotEmpty()) {
-                    showCoinList(it.coins.take(10))
+                it.data?.let {list->
+                    if (list.isNotEmpty()) {
+                        showCoinList(list.take(10))
+                    }
                 }
             }
         }
