@@ -1,9 +1,6 @@
 package com.ggn.updatedbasearchitecture.domain.use_case.get_coin
 
 import com.ggn.updatedbasearchitecture.common.Resource
-import com.ggn.updatedbasearchitecture.data.remote.dto.toCoin
-import com.ggn.updatedbasearchitecture.data.remote.dto.toCoinDetail
-import com.ggn.updatedbasearchitecture.domain.model.Coin
 import com.ggn.updatedbasearchitecture.domain.model.CoinDetail
 import com.ggn.updatedbasearchitecture.domain.repository.CoinRepository
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +19,7 @@ class GetCoinById @Inject constructor(
             val coins = repository.getCoinById(coinId)
             emit(Resource.Success<CoinDetail>(coins))
         } catch(e: HttpException) {
-            emit(Resource.Error<CoinDetail>(e.localizedMessage ?: "An unexpected error occured"))
+            emit(Resource.Error<CoinDetail>(e.localizedMessage ?: "An unexpected error occurred"))
         } catch(e: IOException) {
             emit(Resource.Error<CoinDetail>("Couldn't reach server. Check your internet connection."))
         }
